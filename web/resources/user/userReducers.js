@@ -218,9 +218,6 @@ function user(state = {
     , getList: () => {
       return null
     }
-    , getListInfo: () => {
-      return null
-    }
   }
 
 }, action) {
@@ -504,24 +501,6 @@ function user(state = {
       }
       break;
     }
-    case Actions.SET_SELECTED_USER: {
-      // add this user to the map and set it as selected
-      nextState = {
-        ...state
-        , byId: {
-          ...state.byId
-          , [action.item._id]: action.item
-        }
-        , selected: {
-          id: action.item._id
-          , isFetching: false
-          , error: null
-          , didInvalidate: false
-          , lastUpdated: new Date()
-        }
-      }
-      break;
-    }
     case Actions.REQUEST_CREATE_USER: {
       nextState = {
         ...state
@@ -733,43 +712,6 @@ function user(state = {
       return null
     } else {
       return nextList.items.map((item) => nextState.byId[item])
-    }
-  }
-  nextState.util.getListInfo = (...listArgs) => {
-    /**
-     * utility method for determining the fetching or error status of
-     * any list. If the list exists, it returns the whole list object.
-     * Otherwise it returns null.
-     * Allows us to do something like this:
-     *  const userList = userStore.util.getListInfo(...userListArgs);
-     *  const isFetching = !userList || userList.isFetching
-     *  const userListError = userList ? userList.error : null;
-     * Instead of something like this:
-     *  const isFetching = (
-     *    userStore
-     *    && userStore.lists
-     *    && userStore.lists[1stListArg]
-     *    && userStore.lists[1stListArg][2ndListArg]
-     *    && userStore.lists[1stListArg][2ndListArg].isFetching
-     *  );
-     */
-    if(listArgs.length === 0) {
-      // If no arguments passed, make the list we want "all"
-      listArgs = ["all"];
-    }
-    let nextList = nextState.lists;
-    for(var i = 0; i < listArgs.length; i++) {
-      if(nextList[listArgs[i]]) {
-        nextList = nextList[listArgs[i]];
-      } else {
-        nextList = null;
-        break;
-      }
-    }
-    if(nextList) {
-      return nextList
-    } else {
-      return null
     }
   }
   nextState.util.getKeyArrayFromList = (key, ...listArgs) => {

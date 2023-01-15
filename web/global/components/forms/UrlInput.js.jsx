@@ -53,7 +53,7 @@ class UrlInput extends Binder {
   }
 
   _handleInputChange(e) {
-    let newState = _.update(_.cloneDeep(this.state), e.target.name, () => {
+    let newState = _.update( this.state, e.target.name, function() {
       return e.target.value;
     });
 

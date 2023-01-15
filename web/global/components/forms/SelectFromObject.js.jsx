@@ -1,12 +1,10 @@
 /**
- * Helper component that lests users select items from a complex array of objects OR a simple array of strings.
- * 
- * More info on the Select component at: https://react-select.com/props#select-props
+ * Helper component that lests users select items from a complex array of objects
  *
  * NOTE: To use -
  * // this example shows how to assign an author to a post
  * render() {
- *   const authors = [
+ *   var authors = [
  *     { name: 'Bill', _id: '55XYZ' }
  *     , { name: 'Jenny', _id: '56ABC' }
  *     , { name: 'Steve', _id: '57DEF' }
@@ -16,31 +14,12 @@
  *       <SelectFromObject
  *         name="author"
  *         label="Author"
- *         items={authors}
- *         display={'name'} // Required when items is an array of objects or map of objects.
- *         value={'_id'} // Required when items is an array of objects or map of objects.
+ *         objects={authors}
+ *         display={'name'}
+ *         value={'_id'}
+ *         selected={post.author}
  *         change={handleFormChange}
  *         placeholder="-- Select an author --"
- *       />
- *     </div>
- *   )
- * }
- * 
- * // this example shows how to assign a status to a post
- * render() {
- *   const statuses = [
- *     'active'
- *     , 'archived'
- *     , 'draft'
- *   ];
- *   return (
- *     <div>
- *       <SelectFromObject
- *         name="post.status"
- *         label="Status"
- *         items={statuses}
- *         change={handleFormChange}
- *         placeholder="-- Select a status --"
  *       />
  *     </div>
  *   )
@@ -50,9 +29,6 @@
 // import primary libraries
 import React from 'react';
 import PropTypes from 'prop-types';
-
-// import third party libraries
-import Select from 'react-select';
 
 // import components
 import Binder from '../Binder.js.jsx';
@@ -66,92 +42,55 @@ class SelectFromObject extends Binder {
     this._bind('_handleSelectChange');
   }
 
-  // check against any new props the component receives
+  // check agains any new props the component receives
   componentWillReceiveProps(nextProps) {
     nextProps.selected ? this.setState({selected: nextProps.selected}) : '';
   }
 
   _handleSelectChange(e) {
-    const { change, name } = this.props;
-    let event = {target: {}};
-    event.target.name = name;
-
-    event.target.value = e ? e.value : null;
     this.setState({
-      selected: e ? e.value : null
+      selected: e.target.value
     });
-    change(event);
+    this.props.change(e);
   }
 
   render() {
-    const {
-      disabled
-      , display
-      , filterable
-      , items
-      , label
-      , name
-      , placeholder
-      , required
-      , value
-    } = this.props;
+    const { disabled, display, label, name, objects, placeholder, value, required } = this.props;
 
-    // build the options to select from.
-    let options = []
-    if(Array.isArray(items)) {
-      // items is an array
-      options = items.map(item => {
-        let option = {}
-        // Build each option based on the type of item we have.
-        // This allows us to pass an array of objects or an array of strings.
-        if(typeof(item) === 'object') {
-          if(!display || !value) {
-            console.error("ERROR in Select Input! Must supply 'value' and 'display' props when 'items' is an array of objects.")
-          } else {
-            option.value = item[value];
-            option.label = _.startCase(item[display]);
-            option.name = name;
-            return option;
-          }
-        } else if(typeof(item) === 'string') {
-          option.value = item;
-          option.label = _.startCase(item);
-          option.name = name;
-          return option;
-        }
+    // build the items to select from
+    let options = [];
+    // objects is an array
+    if(typeof(options) == "array") {
+      options = objects.map((object, index) => {
+        return (
+          <option key={index} value={object[value]}>
+            {object[display]}
+          </option>
+        )
       });
     } else {
-      /**
-       * NOTE: Techincally the loop below can handle objects OR arrays. It is considered bad practice to use a for...in loop on an array
-       * due to the possibility of some third party library adding to or modifying array.prototype. This issue is mitigated by using
-       * hasOwnProperty, since then it ignores the rest of the prototype chain properties. All of that to say that the below loop
-       * could, theoretically, stand on it's own and we wouldn't have to care if we provided an array or a map to this component.
-       * For now though we are being cautious and dealing with arrays above and objects below.
-       */
-
-      // items is a map {}
-      for(let i in items) {
-        if(items.hasOwnProperty(i)) {
-          let option = {};
-          // Build each option based on the type of item we have.
-          if(typeof(items[i]) === 'object') {
-            if(!display || !value) {
-              console.error("ERROR in Select Input! Must supply 'value' and 'display' props when 'items' is a map of objects.")
-            } else {
-              option.value = items[i][value];
-              option.label = _.startCase(items[i][display]);
-              option.name = name;
-              options.push(option);
-            }
-          } else if(typeof(items[i]) === 'string') {
-            // Since 'items' is a map we shouldn't be dealing with strings, so this is probably overkill.
-            option.value = items[i];
-            option.label = _.startCase(items[i]);
-            option.name = name;
-            options.push(option);
-          }
+      // objects is a map {}
+      for(let i in objects) {
+        if(objects.hasOwnProperty(i)) {
+          /**
+           * if object has an _id, make that the iterator key, otherwise use object[value]
+           * since that is supposed to be unique.
+           */
+          options.push(
+            <option
+              key={objects[i]._id ? objects[i]._id : objects[i][value]}
+              value={objects[i][value]}
+            >
+              {objects[i][display]}
+            </option>
+          )
         }
       }
+    }
+    // render placeholder
+    if(placeholder) {
+      var placeholderText = <option key="-1" value={''}>{placeholder}</option>;
+      options.unshift(placeholderText);
     }
 
     const requiredText = required ? "(required)" : "";
@@ -159,16 +98,15 @@ class SelectFromObject extends Binder {
     return (
       <div className="select-from-object input-group">
         <label htmlFor={name}>{label} <span className="subhead">{requiredText}</span></label>
-        <Select
-          classNamePrefix="-select"
-          isDisabled={disabled}
-          isSearchable={filterable}
+        <select
+          disabled
           name={name}
           onChange={this._handleSelectChange}
-          options={options}
-          placeholder={placeholder}
-          value={options.filter(({value}) => value === this.state.selected)}
-        />
+          required={required}
+          value={this.state.selected}
+        >
+          {options}
+        </select>
       </div>
     )
   }
@@ -177,17 +115,16 @@ class SelectFromObject extends Binder {
 SelectFromObject.propTypes = {
   change: PropTypes.func.isRequired
   , disabled: PropTypes.bool
-  , display: PropTypes.string // Not required when 'items' is an array.
-  , filterable: PropTypes.bool
-  , items: PropTypes.oneOfType([
+  , display: PropTypes.string.isRequired
+  , label: PropTypes.string
+  , objects: PropTypes.oneOfType([
     PropTypes.array
     , PropTypes.object
   ]).isRequired
-  , label: PropTypes.string
   , placeholder: PropTypes.string
   , required: PropTypes.bool
   , selected: PropTypes.string
-  , value: PropTypes.string
+  , value: PropTypes.string.isRequired
 }
 
 SelectFromObject.defaultProps = {

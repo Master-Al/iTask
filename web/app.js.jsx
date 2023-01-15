@@ -7,32 +7,34 @@
  * TODO: in future, check to see if react-router one starts working and remove this dependency
  */
 
-require('es5-shim');
-require('es5-shim/es5-sham');
+require("es5-shim");
+require("es5-shim/es5-sham");
 
 // import primary libraries
-import React from 'react';
-import { render } from 'react-dom';
-// import injectTapEventPlugin from 'react-tap-event-plugin';
-import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import React from "react";
+import { render } from "react-dom";
+import injectTapEventPlugin from "react-tap-event-plugin";
+import { Provider } from "react-redux";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import createHistory from 'history/createBrowserHistory';
-import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux';
+import createHistory from "history/createBrowserHistory";
+import {
+  ConnectedRouter,
+  routerReducer,
+  routerMiddleware,
+  push,
+} from "react-router-redux";
 
 // instantiate tap event plugin
-// https://www.npmjs.com/package/react-tap-event-plugin
-// fixed in most browser, recommended to migrate away from this plugin
-// injectTapEventPlugin();
-
+injectTapEventPlugin();
 
 // import scss files.
 // NOTE: Webpack does NOT actually import these as js. Instead it will generate the yote.css file.
-import './config/yote.scss';
+import "./config/yote.scss";
 
-import routes from './config/routes.js.jsx';
+import routes from "./config/routes.js.jsx";
 
-import configureStore from './config/configureStore';
+import configureStore from "./config/configureStore";
 
 /**
  * EXPERIMENTAL CROSS BROWSER STUFF
@@ -41,8 +43,11 @@ import configureStore from './config/configureStore';
  * - instead of checking let's ONLY show console logs if it's chrome
  */
 
-if((navigator.userAgent.toLowerCase().indexOf('webkit') == -1 && navigator.userAgent.toLowerCase().indexOf('firefox') == -1) || !window.development) {
-  window.console = {log: function() {}, error: function(){} };
+if (
+  navigator.userAgent.toLowerCase().indexOf("webkit") == -1 ||
+  !window.development
+) {
+  window.console = { log: function () {}, error: function () {} };
   /**
    * NOTE: overriding the error function may be dangerous, but IE throws some
    * major errors. in particular, something in the draftjs library checks if
@@ -53,17 +58,19 @@ if((navigator.userAgent.toLowerCase().indexOf('webkit') == -1 && navigator.userA
   // override errors.
   // NOTE: Only do this in chrome, IE haaaaaates that bind call
   var consoleError = console.error.bind(console);
-  console.error = function(err){
-    if(err !== 'Warning: A component is `contentEditable` and contains `children` managed by React. It is now your responsibility to guarantee that none of those nodes are unexpectedly modified or duplicated. This is probably not intentional.'){
-        consoleError(err);
+  console.error = function (err) {
+    if (
+      err !==
+      "Warning: A component is `contentEditable` and contains `children` managed by React. It is now your responsibility to guarantee that none of those nodes are unexpectedly modified or duplicated. This is probably not intentional."
+    ) {
+      consoleError(err);
     }
-  }
+  };
 }
 
 /**
  * END EXPERIMENTAL CROSS BROWSER STUFF
  */
-
 
 const store = configureStore();
 const history = createHistory();
@@ -75,12 +82,8 @@ const history = createHistory();
 // });
 
 render(
-    <Provider store={store}>
-      <ConnectedRouter
-        history={history}
-      >
-        {routes}
-      </ConnectedRouter>
-    </Provider>
-  , document.getElementById('application-main-yote')
-)
+  <Provider store={store}>
+    <ConnectedRouter history={history}>{routes}</ConnectedRouter>
+  </Provider>,
+  document.getElementById("application-main-yote")
+);

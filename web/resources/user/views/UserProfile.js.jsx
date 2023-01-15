@@ -31,6 +31,7 @@ class UserProfile extends Binder {
     this.state = {
       updateModalOpen: false
       , newUserData: this.props.user || {}
+      , changeCount: 0
     }
     this._bind(
       '_closeUpdateModal'
@@ -42,7 +43,7 @@ class UserProfile extends Binder {
 
   _openUpdateModal() {
     const { user } = this.props;
-    const newUserInfo = _.cloneDeep(user);
+    var newUserInfo = JSON.parse(JSON.stringify(user));
     this.setState({
       updateModalOpen: true
       , newUserData: newUserInfo
@@ -57,16 +58,29 @@ class UserProfile extends Binder {
   }
 
   _handleFormChange(e) {
-    const newUserData = _.update(_.cloneDeep(this.state.newUserData), e.target.name, () => {
+
+    let newUser = _.update( this.state.newUserData, e.target.name, function() {
       return e.target.value;
     });
-    this.setState({newUserData});
+
+    /**
+     * Tell child components to rerender
+     *
+     * NOTE: this is hacky
+     */
+    let changeCount = this.state.changeCount;
+    changeCount++;
+
+    this.setState({
+      newUserData: newUser
+      , changeCount
+    });
   }
 
   _handleFormSubmit(e) {
     const { dispatch } = this.props;
-    const newState = this.state.newUserData;
-    dispatch(userActions.sendUpdateProfile(newState)).then( action => {
+    var newState = this.state.newUserData;
+    dispatch(userActions.sendUpdateProfile(newState)).then((action)=> {
       this._closeUpdateModal();
     });
   }
@@ -75,11 +89,9 @@ class UserProfile extends Binder {
   render() {
     const { user } = this.props;
 
-    // TODO: Drop the default profile image and use the user's first/last initials.
-    const pictureUrl = user.profilePicUrl || '/img/defaults/profile.png';
+    let pictureUrl = user.profilePicUrl || '/img/defaults/profile.png';
 
-    const isEmpty = !user._id;
-
+    let isEmpty = !user._id;
     return (
       <UserProfileLayout>
         <div className="flex ">
@@ -108,6 +120,7 @@ class UserProfile extends Binder {
             newUserData={this.state.newUserData}
             isModalOpen={this.state.updateModalOpen}
             closeModal={this._closeUpdateModal}
+            changeCount={this.state.changeCount}
             handleFormChange={this._handleFormChange}
             handleFormSubmit={this._handleFormSubmit}
           />

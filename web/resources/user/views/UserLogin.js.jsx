@@ -47,11 +47,6 @@ class UserLogin extends Binder {
   }
 
   componentWillReceiveProps(nextProps) {
-
-    // will be depreciated in React 17+
-    // see notes here https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html
-
-
     this.setState(nextProps);
     if(nextProps.status === "error") {
       alert(nextProps.error.message);
@@ -59,16 +54,15 @@ class UserLogin extends Binder {
   }
 
   _handleFormChange(e) {
-    let user = _.update(_.cloneDeep(this.state.user), e.target.name, () => {
-      return e.target.value;
-    });
-    this.setState({user});
+    var nextState = this.state.user;
+    nextState[e.target.name] = e.target.value;
+    this.setState(nextState);
   }
 
   _handleFormSubmit(e) {
     e.preventDefault();
     const { dispatch, history, location } = this.props;
-    dispatch(userActions.sendLogin(this.state.user.username, this.state.user.password)).then((action) => {
+    dispatch(userActions.sendLogin(this.state.username, this.state.password)).then((action) => {
       if(action.success) {
         if(location.state.from) {
           this.setState({redirectToReferrer: true});
@@ -94,8 +88,6 @@ class UserLogin extends Binder {
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } }
     const { redirectToReferrer, user } = this.state;
-    console.log("this.state", this.state);
-    
 
     if(redirectToReferrer) {
       return (

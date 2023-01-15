@@ -3,61 +3,61 @@
 // Brand Palette
 // ••••••••••••••••••••••••••••••••••••••••••••••••••
 
-$brand-primary:               #000;
-$brand-secondary:             #352D39;
-$brand-accent:                #C20032;
+$brand-primary: #000;
+$brand-secondary: #352d39;
+$brand-accent: #636ef5;
 
-$workout-color:               #588728;
-$section-color:               #99040E;
-$exercise-color:              #2A95E3;
-$movement-color:              #F58A12;
+$workout-color: #588728;
+$section-color: #99040e;
+$exercise-color: #2a95e3;
+$movement-color: #f58a12;
 
-$soflete-green:               #588728;
-$soflete-red:               #99040E;
-$soflete-light-red:         #F35660;
-$soflete-blue:              #2A95E3;
-$soflete-yellow:              #F58A12;
-$soflete-gray:                #858484;
-$soflete-light-gray:          #B7B7B7;
+$soflete-green: #588728;
+$soflete-red: #99040e;
+$soflete-light-red: #f35660;
+$soflete-blue: #2a95e3;
+$soflete-yellow: #f58a12;
+$soflete-gray: #858484;
+$soflete-light-gray: #b7b7b7;
 
 // UI Palette
 // ••••••••••••••••••••••••••••••••••••••••••••••••••
-$bg-color:                    $white-0;
-$dark-bg-color:               darken($brand-primary, 20);
-$gray:                        $gray-5;
-$white:                       $white-1;
+$bg-color: $white-0;
+$dark-bg-color: darken($brand-primary, 20);
+$gray: $gray-5;
+$white: $white-1;
 
-$highlight-color:             rgba(0,0,0,0.05);
+$highlight-color: rgba(0, 0, 0, 0.05);
 
-$text-color:                  rgba(0,0,0,0.87);
-$lighter-text-color:          rgba(0,0,0,0.35);
-$muted-text:                  rgba(0,0,0,0.24);
-$text-light:                  rgba(255,255,255,.9);
-$accent-color:                $brand-accent;
+$text-color: rgba(0, 0, 0, 0.87);
+$lighter-text-color: rgba(0, 0, 0, 0.35);
+$muted-text: rgba(0, 0, 0, 0.24);
+$text-light: rgba(255, 255, 255, 0.9);
+$accent-color: $brand-accent;
 
-$link-color:                  #F08F0F;
-$link-visited-color:          $link-color;
-$link-hover-color:            lighten($link-color, 20);
+$link-color: #f08f0f;
+$link-visited-color: $link-color;
+$link-hover-color: lighten($link-color, 20);
 
-$button-color:                $brand-accent;
-$button-hover-color:          lighten($button-color, 20);
-$button-visited-color:        $button-color;
+$button-color: $brand-accent;
+$button-hover-color: lighten($button-color, 20);
+$button-visited-color: $button-color;
 
-$divider-color:               rgba(0,0,0,0.15);
-$light-divider-color:         rgba(255,255,255,0.15);
+$divider-color: rgba(0, 0, 0, 0.15);
+$light-divider-color: rgba(255, 255, 255, 0.15);
 
-$shadow-color:                rgba(0,0,0,0.15);
-$black:                       $black-2;
+$shadow-color: rgba(0, 0, 0, 0.15);
+$black: $black-2;
 
 // Component colors
 // ••••••••••••••••••••••••••••••••••••••••••••••••••
-$sidebar-bg-color:               $blue-gray-5;
-$header-bg-color:                $blue-gray-3;
-$drawer-bg-color:                $blue-gray-9;
+$sidebar-bg-color: $blue-gray-5;
+$header-bg-color: $blue-gray-3;
+$drawer-bg-color: $blue-gray-9;
 // $topbar-text-color:
 
-$hero-bg-color:                 $blue-gray-0;
-$footer-bg-color:               $blue-gray-0;
+$hero-bg-color: $blue-gray-0;
+$footer-bg-color: $blue-gray-0;
 
 // Semantic Colors
 // ••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -68,17 +68,17 @@ $success-hover: darken($success, 10);
 $warning: #e67e22;
 $warning-hover: darken($warning, 10);
 
-$danger: #99040E;
+$danger: #99040e;
 $danger-hover: darken($danger, 10);
 
 $primary: #222;
 $primary-hover: darken($primary, 10);
 
-$info: #2A95E3;
+$info: #2a95e3;
 $info-hover: darken($info, 10);
 
 $formContainerColor: #fff;
 $formAccentColor: $link-color;
-$inputBorderColor: rgba(34,36,38,.15);
+$inputBorderColor: rgba(34, 36, 38, 0.15);
 $formTextColor: $text-color;
-$richFormContainerColor: rgba(255,255,255,0.7);
+$richFormContainerColor: rgba(255, 255, 255, 0.7);

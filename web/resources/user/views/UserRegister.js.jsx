@@ -34,7 +34,7 @@ class UserRegister extends Binder {
       errorMessage: ''
       , isErrorModalOpen: false
       , redirectToReferrer: false
-      , user: this.props.defaultUser ? _.cloneDeep(this.props.defaultUser) : null
+      , user: this.props.defaultUser ? JSON.parse(JSON.stringify(this.props.defaultUser)): null
       // NOTE: don't want to actually change the store's defaultItem, just use a copy
     }
     this._bind(
@@ -45,10 +45,9 @@ class UserRegister extends Binder {
   }
 
   _handleFormChange(e) {
-    const user = _.update(_.cloneDeep(this.state.user), e.target.name, () => {
-      return e.target.value;
-    });
-    this.setState({user});
+    var nextState = this.state.user;
+    nextState[e.target.name] = e.target.value;
+    this.setState(nextState);
   }
 
   _handleFormSubmit(e) {

@@ -21,7 +21,7 @@ const Fade = ({ children, ...props }) => (
 );
 
 //build and export the landing page Hero banner
-class Hero extends React.Component {
+class Hero extends React.Component{
   constructor(props){
     super(props);
     this.state = {
@@ -57,26 +57,14 @@ class Hero extends React.Component {
     clearInterval(this.interval);
   }
 
-  render() {
+  render(){
     return (
       <div styleName="landingStyles.hero" className="hero">
         <div className="yt-container">
           <img src="/img/howler.png" />
-          <h1 styleName="h1">This is Yote</h1>
-          <h2 styleName="h2">
-            <TransitionGroup
-              exit={false}
-            >
-              <Fade  key={this.state.coolThing}>
-                <span
-                  styleName="cool-thing"
-                >
-                  {this.state.coolThing}
-                </span>
-              </Fade>
-            </TransitionGroup>
-          </h2>
-          <p> You can use it to make cool stuff </p>
+          <h1 styleName="h1">This is iTask</h1>
+
+          <p> You can use it to keep track of your todos </p>
         </div>
       </div>
     )

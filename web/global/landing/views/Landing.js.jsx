@@ -53,7 +53,7 @@ class Landing extends Binder {
         />
         <LandingHero />
         <div className="hero sub u-centerText">
-          <p> Check out the docs on <a href="https://fugitivelabs.github.io/yote/"> GitHub </a></p>
+          <p> Built with Yote. Check out the docs on <a href="https://fugitivelabs.github.io/yote/"> GitHub </a></p>
         </div>
         <div style={{height: '600px'}}></div>
       </div>

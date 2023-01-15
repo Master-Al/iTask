@@ -6,30 +6,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TextInput = ({
-  change
-  , disabled
-  , label
-  , name
-  , placeholder
-  , required
-  , value
-}) => {
+// import components
+import Binder from '../Binder.js.jsx';
 
-  return (
-    <div className="input-group">
-      <label htmlFor={name}> {label} {required ? <sup className="-required">*</sup> : null}</label>
-      <input
-        disabled={disabled}
-        name={name}
-        onChange={change}
-        placeholder={placeholder}
-        required={required}
-        type="text"
-        value={value}
-      />
-    </div>
-  )
+class TextInput extends Binder {
+  constructor(props) {
+    super(props);
+    this._bind('_handleInputChange');
+  }
+
+  _handleInputChange(e) {
+    this.props.change(e);
+  }
+
+  render() {
+    const {
+      disabled
+      , label
+      , name
+      , placeholder
+      , required
+      , value
+    } = this.props;
+    return (
+      <div className="input-group">
+        <label htmlFor={name}> {label} {required ? <sup className="-required">*</sup> : null}</label>
+        <input
+          disabled={disabled}
+          name={name}
+          onChange={this._handleInputChange}
+          placeholder={placeholder}
+          required={required}
+          type="text"
+          value={value}
+        />
+      </div>
+    )
+  }
 }
 
 TextInput.propTypes = {

@@ -13,4 +13,10 @@
 
 
 export { default as user } from '../resources/user/UserRouter.js.jsx';
-export { default as products } from '../resources/product/ProductRouter.js.jsx';
+
+
+export { default as tasks } from '../resources/task/TaskRouter.js.jsx';
+
+
+export { default as flows } from '../resources/flow/FlowRouter.js.jsx';
+export { default as notes } from '../resources/note/NoteRouter.js.jsx';

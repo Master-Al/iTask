@@ -42,10 +42,9 @@ class ForgotPassword extends Binder {
   }
 
   _handleFormChange(e) {
-    const newState = _.update(_.cloneDeep(this.state), e.target.name, () => {
-      return e.target.value;
-    });
-    this.setState(newState);
+    var nextState = this.state;
+    nextState[e.target.name] = e.target.value;
+    this.setState(nextState);
   }
 
   _handleFormSubmit(e) {

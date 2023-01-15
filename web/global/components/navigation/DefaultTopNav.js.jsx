@@ -32,7 +32,6 @@ class DefaultTopNav extends Binder {
   }
 
   componentWillMount() {
-    // will be depreciated in React 17+
     window.addEventListener('scroll', this._handleScroll);
   }
 
@@ -122,7 +121,7 @@ class DefaultTopNav extends Binder {
           <div className="titles">
             <NavLink to="/" className="nav-logo" >
               <img src="/img/yote_logo.png"/>
-              <span className="-subtitle"> Standard Yote Dev Kit </span>
+              <span className="-subtitle"> iTask </span>
             </NavLink>
           </div>
           <div className="actions">

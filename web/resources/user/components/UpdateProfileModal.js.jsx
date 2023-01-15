@@ -35,6 +35,7 @@ class UpdateProfileModal extends Binder {
       , handleFormSubmit
       , isModalOpen
       , newUserData
+      , user
     } = this.props;
 
     return (
@@ -60,7 +61,8 @@ class UpdateProfileModal extends Binder {
 }
 
 UpdateProfileModal.propTypes = {
-  closeModal: PropTypes.func.isRequired
+  changeCount: PropTypes.number.isRequired
+  , closeModal: PropTypes.func.isRequired
   , handleFormChange: PropTypes.func.isRequired
   , handleFormSubmit: PropTypes.func.isRequired
   , isModalOpen: PropTypes.bool.isRequired

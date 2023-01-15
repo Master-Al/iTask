@@ -38,10 +38,10 @@ class AdminCreateUser extends Binder {
     /**
      * This let's us change arbitrarily nested objects with one pass
      */
-    const user = _.update(_.cloneDeep(this.state.user), e.target.name, () => {
+    let newState = _.update( this.state.user, e.target.name, function() {
       return e.target.value;
     });
-    this.setState({user});
+    this.setState(newState);
   }
 
   _handleFormSubmit(e) {
@@ -61,7 +61,7 @@ class AdminCreateUser extends Binder {
 
   render() {
     const { user } = this.state;
-    const isEmpty = !user;
+    const isEmpty = !user || (user.username === null || user.username === undefined);;
     return (
       <div className="flex">
         <section className="section transparent-bg">
